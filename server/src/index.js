@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -8,10 +10,12 @@ const appointmentRoutes = require('./routes/appointments');
 
 const app = express();
 const PORT = process.env.PORT || 4821;
+const isProd = process.env.NODE_ENV === 'production';
+const clientDist = path.join(__dirname, '../../client/dist');
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://127.0.0.1:4820',
+    origin: process.env.CLIENT_URL || (isProd ? true : 'http://127.0.0.1:4820'),
     credentials: true,
   })
 );
@@ -24,6 +28,13 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/appointments', appointmentRoutes);
+
+if (isProd && fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get(/^(?!\/api).*/, (_req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.use((err, _req, res, _next) => {
   console.error(err);
