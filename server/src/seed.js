@@ -278,14 +278,14 @@ const properties = [
   },
 ];
 
-async function seed() {
-  await connectDB();
-
-  await Promise.all([
-    Appointment.deleteMany({}),
-    Property.deleteMany({}),
-    User.deleteMany({}),
-  ]);
+async function seedData({ reset = true } = {}) {
+  if (reset) {
+    await Promise.all([
+      Appointment.deleteMany({}),
+      Property.deleteMany({}),
+      User.deleteMany({}),
+    ]);
+  }
 
   const admin = await User.create({
     name: 'Meridian Admin',
@@ -311,11 +311,26 @@ async function seed() {
   console.log('Admin: admin@meridian.homes / admin123');
   console.log('User:  alex@example.com / user123');
   console.log(`Demo user id: ${demoUser._id}`);
+  return { admin, demoUser, properties: created };
+}
 
+async function ensureSeeded() {
+  const count = await Property.countDocuments();
+  if (count > 0) return;
+  await seedData({ reset: true });
+}
+
+async function seed() {
+  await connectDB();
+  await seedData({ reset: true });
   await mongoose.disconnect();
 }
 
-seed().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+module.exports = { seedData, ensureSeeded, properties };
+
+if (require.main === module) {
+  seed().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

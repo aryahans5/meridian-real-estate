@@ -4,6 +4,7 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const { ensureSeeded } = require('./seed');
 const authRoutes = require('./routes/auth');
 const propertyRoutes = require('./routes/properties');
 const appointmentRoutes = require('./routes/appointments');
@@ -43,6 +44,9 @@ app.use((err, _req, res, _next) => {
 
 async function start() {
   await connectDB();
+  if (process.env.AUTO_SEED !== '0') {
+    await ensureSeeded();
+  }
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Meridian API listening on http://127.0.0.1:${PORT}`);
   });
