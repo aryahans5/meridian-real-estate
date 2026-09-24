@@ -10,6 +10,10 @@ export default function PropertyCard({ property }: { property: Property }) {
           src={property.images[0]}
           alt={property.title}
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.src =
+              'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80';
+          }}
         />
         <span className="property-badge">{listingLabel(property.listingType)}</span>
       </Link>

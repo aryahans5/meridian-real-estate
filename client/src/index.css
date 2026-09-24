@@ -761,13 +761,16 @@ p {
   gap: 0.5rem;
   margin: 1.5rem 0;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
 }
 
 .admin-tabs button {
   border: 1px solid var(--line);
   background: transparent;
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1.15rem;
   border-radius: var(--radius);
+  min-height: 44px;
 }
 
 .admin-tabs button.active {

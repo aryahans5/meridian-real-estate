@@ -1,4 +1,5 @@
-import type { FormEvent } from 'react';
+import { type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import type { PropertyFilters } from '../types';
 
 interface Props {
@@ -14,6 +15,21 @@ const TYPES = [
   { value: 'commercial', label: 'Commercial' },
 ];
 
+function toSearchPath(filters: PropertyFilters) {
+  const params = new URLSearchParams();
+  if (filters.q) params.set('q', filters.q);
+  if (filters.listingType && filters.listingType !== 'all') {
+    params.set('listingType', filters.listingType);
+  }
+  if (filters.minPrice) params.set('minPrice', filters.minPrice);
+  if (filters.maxPrice) params.set('maxPrice', filters.maxPrice);
+  if (filters.bedrooms) params.set('bedrooms', filters.bedrooms);
+  if (filters.city) params.set('city', filters.city);
+  if (filters.page && filters.page > 1) params.set('page', String(filters.page));
+  const qs = params.toString();
+  return qs ? `/properties?${qs}` : '/properties';
+}
+
 export default function SearchFilters({ filters, onChange, onSubmit }: Props) {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -23,20 +39,22 @@ export default function SearchFilters({ filters, onChange, onSubmit }: Props) {
   return (
     <div>
       <div className="filter-chips" role="tablist" aria-label="Listing type">
-        {TYPES.map((t) => (
-          <button
-            key={t.value}
-            type="button"
-            className={`chip${(filters.listingType || 'all') === t.value ? ' active' : ''}`}
-            onClick={() => {
-              const next = { ...filters, listingType: t.value, page: 1 };
-              onChange(next);
-              onSubmit(next);
-            }}
-          >
-            {t.label}
-          </button>
-        ))}
+        {TYPES.map((t) => {
+          const next = { ...filters, listingType: t.value, page: 1 };
+          const active = (filters.listingType || 'all') === t.value;
+          return (
+            <Link
+              key={t.value}
+              to={toSearchPath(next)}
+              role="tab"
+              aria-selected={active}
+              className={`chip${active ? ' active' : ''}`}
+              onClick={() => onChange(next)}
+            >
+              {t.label}
+            </Link>
+          );
+        })}
       </div>
 
       <form className="search-panel" onSubmit={handleSubmit}>

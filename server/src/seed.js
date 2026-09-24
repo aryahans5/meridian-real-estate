@@ -89,7 +89,7 @@ const properties = [
     state: 'OR',
     zip: '97214',
     images: [
-      'https://images.unsplash.com/photo-1605276374104-dee2c0cb9c8a?w=1200&q=80',
+      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
     ],
@@ -113,7 +113,7 @@ const properties = [
     zip: '98101',
     images: [
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80',
-      'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=1200&q=80',
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=80',
       'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80',
     ],
     features: ['Private elevator', 'Terrace', 'Concierge', 'Wine room', 'Home theater'],
@@ -158,7 +158,7 @@ const properties = [
     zip: '55419',
     images: [
       'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80',
-      'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdbc?w=1200&q=80',
+      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80',
       'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=1200&q=80',
     ],
     features: ['Lake access', 'Screened porch', 'Finished basement', '2-car garage'],
